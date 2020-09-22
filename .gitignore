@@ -127,3 +127,11 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+
+
+# ignore course_material folders with its contents
+*/course_material
+*course_material
+
+
