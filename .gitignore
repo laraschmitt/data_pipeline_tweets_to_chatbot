@@ -135,5 +135,5 @@ dmypy.json
 *course_material
 
 #ignore spiced credentials
-*credentials_spiced.py
+*credentials.py
 
