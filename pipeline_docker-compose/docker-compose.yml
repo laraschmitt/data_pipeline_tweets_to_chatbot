@@ -1,0 +1,14 @@
+version: '3'
+services:
+  tweet_collector:
+    build: tweet_collector/  # referencing locally (where to find on  my local machine)
+    #volumes:
+   # - ./tweet_collector_example/:/code
+    depends_on:   # 'links' is the older version
+    - mongodb
+
+# mongo database:
+  mongodb:
+    image: mongo
+    ports:
+        - 27017:27017
