@@ -1,5 +1,5 @@
 #Spiced Twitter Credentials you can use (should work) if you don't have a Twitter acct.
-CONSUMER_API_KEY = "2XBJMFPxIVOuNqxM7Xvi3EKjp"
-CONSUMER_API_SECRET = "IFTCxGL2Qg47rzm54ZmhKlo7J7OktecTU1wMRCwyV9vlBo5oMS"
-ACCESS_TOKEN = "1307981974892675072-UN86sbG9MAS6wrTfLByTTTJ05AeAjU"
-ACCESS_TOKEN_SECRET = "xYi8GkNTXGSCl7J2q5BaLVknhpESCDj254N34ltGVdBrY"
+CONSUMER_API_KEY = "<consumer_api_key>"
+CONSUMER_API_SECRET = "<consumer_api_secret>"
+ACCESS_TOKEN = "<access_token>"
+ACCESS_TOKEN_SECRET = "access_token_secret"
