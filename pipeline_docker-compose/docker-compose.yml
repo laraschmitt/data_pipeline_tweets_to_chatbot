@@ -1,14 +1,35 @@
+# File that specifies the structure of the pipeline
 version: '3'
+
 services:
+  # 1. Container: collects tweets from Twitter 
   tweet_collector:
     build: tweet_collector/  # referencing locally (where to find on  my local machine)
-    #volumes:
-   # - ./tweet_collector_example/:/code
+    volumes:
+    - ./tweet_collector/:/get_tweets
     depends_on:   # 'links' is the older version
     - mongodb
 
-# mongo database:
+# 2. Container: mongo database - stores the raw tweets
   mongodb:
     image: mongo
     ports:
         - 27017:27017
+
+# 3. Container: ETL job
+  etl_job:
+    build: etl_job/
+    volumes: 
+      - ./etl_job/:/app
+    depends_on: 
+      - mongodb
+      - mypg
+
+  # 4. Container: postgres database - stores the analyzed tweets
+  mypg:
+    image: postgres:12.4  # inherits it directly from the image on dockerhub
+    ports:
+      - 5555:5432
+    environment: 
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=1234

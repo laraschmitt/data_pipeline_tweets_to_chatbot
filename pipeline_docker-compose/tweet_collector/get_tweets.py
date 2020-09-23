@@ -8,6 +8,7 @@ from pymongo import MongoClient
 
 # Data Stream --> infinite flow of data
 
+
 def authenticate():
     """Function for handling Twitter Authentication. Please note
        that this script assumes you have a file called credentials.py
@@ -20,40 +21,42 @@ def authenticate():
 
     See course material for instructions on getting your own Twitter credentials.
     """
-    auth = OAuthHandler(credentials.CONSUMER_API_KEY, credentials.CONSUMER_API_SECRET)
-    auth.set_access_token(credentials.ACCESS_TOKEN, credentials.ACCESS_TOKEN_SECRET)
+    auth = OAuthHandler(credentials.CONSUMER_API_KEY,
+                        credentials.CONSUMER_API_SECRET)
+    auth.set_access_token(credentials.ACCESS_TOKEN,
+                          credentials.ACCESS_TOKEN_SECRET)
 
     return auth
 
 
-### connect to MongoDB database:
-client = MongoClient(host='mongodb:27017')
+# connect to MongoDB database:
+client = MongoClient('mongodb:27017')
 db = client.tweet_db
+
 
 class TwitterListener(StreamListener):
 
     def on_data(self, data):
-
         """
         Gets called by Tweepy when a new tweet arrives.
 
         Whatever we put in this method defines what is done with
         every single tweet as it is intercepted in real-time"""
 
-        t = json.loads(data) #t is just a regular python dictionary.
+        t = json.loads(data)  # t is just a regular python dictionary.
 
         tweet = {
-        'text': t['text'],
-        'username': t['user']['screen_name'],
-        'followers_count': t['user']['followers_count']
+            'text': t['text'],
+            'username': t['user']['screen_name'],
+            'followers_count': t['user']['followers_count']
         }
+        logging.warning('-----A new tweet has arrived ----------')
         print(t['text'] + '\n\n')
         # do additional stuff
         # e.g. write a tweet to a DB
-        db.tweets.insert(tweet)
+        db.tweets.insert_one(tweet)
 
         #logging.critical(f'\n\n\nTWEET INCOMING: {tweet["text"]}\n\n\n')
-
 
     def on_error(self, status):
 
@@ -66,5 +69,7 @@ if __name__ == '__main__':
 
     auth = authenticate()  # log into twitter
     listener = TwitterListener()  # create a listener
-    stream = Stream(auth, listener)  # starts an infinite loop  that listens to Twitter
-    stream.filter(track=['deep learning', 'data vizualisation', 'sklearn', 'machine learning'], languages=['en'])
+    # starts an infinite loop  that listens to Twitter
+    stream = Stream(auth, listener)
+    stream.filter(track=['deep learning', 'data vizualisation',
+                         'sklearn', 'machine learning'], languages=['en'])
