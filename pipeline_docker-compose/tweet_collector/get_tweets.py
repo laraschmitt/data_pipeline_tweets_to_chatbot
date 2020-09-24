@@ -46,6 +46,7 @@ class TwitterListener(StreamListener):
         t = json.loads(data)  # t is just a regular python dictionary.
 
         tweet = {
+            'twitter_id': t['id'],
             'text': t['text'],
             'username': t['user']['screen_name'],
             'followers_count': t['user']['followers_count']
@@ -55,11 +56,12 @@ class TwitterListener(StreamListener):
         # do additional stuff
         # e.g. write a tweet to a DB
         db.tweets.insert_one(tweet)
+        logging.warning('-- The tweet has been inserted into MongoDB -----')
 
         #logging.critical(f'\n\n\nTWEET INCOMING: {tweet["text"]}\n\n\n')
 
     def on_error(self, status):
-
+        print(status)
         if status == 420:
             print(status)
             return False
@@ -71,5 +73,8 @@ if __name__ == '__main__':
     listener = TwitterListener()  # create a listener
     # starts an infinite loop  that listens to Twitter
     stream = Stream(auth, listener)
-    stream.filter(track=['deep learning', 'data vizualisation',
-                         'sklearn', 'machine learning'], languages=['en'])
+    stream.filter(track=['ultralight hiking',
+                         'ultralight app'], languages=['en'])
+
+
+# ERRORCODE: 420 = when an app is being rate limited for making too many requests
