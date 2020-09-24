@@ -6,7 +6,7 @@ services:
   tweet_collector:
     build: tweet_collector/  # referencing locally (where to find on  my local machine)
     volumes:
-    - ./tweet_collector/:/get_tweets
+    - ./tweet_collector/:/get_tweets   # synchronizes my local file with the container
     depends_on:   # 'links' is the older version
     - mongodb
 
@@ -33,3 +33,11 @@ services:
     environment: 
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=1234
+  
+  # 5. Container: Slack bot
+    # container_name: slack_bot
+    # build: slack_bot/
+    # volumes:
+    #    - ./slack_bot/:/app
+    # depends_on: 
+    #    - mypg

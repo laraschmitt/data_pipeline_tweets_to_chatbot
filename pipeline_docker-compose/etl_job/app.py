@@ -43,7 +43,8 @@ engine = create_engine(f'postgres://{USERNAME}:{PASSWORD}@{HOST}:{PORT}/{DB}')
 
 # create table 'tweets' in the postgres database
 CREATE_QUERY = '''CREATE TABLE IF NOT EXISTS tweets
-                    (name VARCHAR(50),
+                    (id SERIAL,
+                    name VARCHAR(50),
                     text VARCHAR(500),
                     sentiment_score NUMERIC);'''
 
@@ -57,7 +58,7 @@ s = SentimentIntensityAnalyzer()
 
 def extract():
     """ Extracts tweets from the MongoDB database"""
-    tweets = list(tweet_collection.find())[-5:]  # only the last 5 for now
+    tweets = list(tweet_collection.find())
     # tweets is a list of tweets, where each item is a tweet (datatype dict/cursor)
     return tweets
 
@@ -85,6 +86,8 @@ def load(tweets):
     for tweet in tweets:
         engine.execute(
             insert_query, (tweet['username'], tweet['text'], tweet['sentiment_score']))
+
+    tweet_collection.remove({})
 
 
 while True:
