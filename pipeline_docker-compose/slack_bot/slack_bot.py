@@ -8,7 +8,7 @@ logging.basicConfig(level=logging.DEBUG)
 
 # oauth_token = SLACKBOT_TOKEN  # this is an environment variable on my local machine
 # slack_token = os.environ["SLACK_API_TOKEN"]   solution to get the environ var
-oauth_token = "xoxb-1263169162151-1381809494389-uBK8Rv1RQ2t9VS5Whj5Cmiot"
+oauth_token = "<oauth_token>"
 client = slack.WebClient(token=oauth_token)
 
 
