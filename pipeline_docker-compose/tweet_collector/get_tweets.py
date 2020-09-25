@@ -4,9 +4,6 @@ from tweepy.streaming import StreamListener
 import json
 import logging
 from pymongo import MongoClient
-#import pandas as pd
-
-# Data Stream --> infinite flow of data
 
 
 def authenticate():
@@ -53,28 +50,29 @@ class TwitterListener(StreamListener):
         }
         logging.warning('-----A new tweet has arrived ----------')
         print(t['text'] + '\n\n')
-        # do additional stuff
-        # e.g. write a tweet to a DB
+
+        # write a tweet to mongoDB
         db.tweets.insert_one(tweet)
         logging.warning('-- The tweet has been inserted into MongoDB -----')
 
         #logging.critical(f'\n\n\nTWEET INCOMING: {tweet["text"]}\n\n\n')
 
     def on_error(self, status):
-        print(status)
+        print("error: ", status,
+              "means: app is being rate limited for making too many requests")
         if status == 420:
             print(status)
             return False
+
+#
 
 
 if __name__ == '__main__':
 
     auth = authenticate()  # log into twitter
+    # print(auth.get_username())
     listener = TwitterListener()  # create a listener
     # starts an infinite loop  that listens to Twitter
-    stream = Stream(auth, listener)
+    stream = Stream(auth, listener)  # Data Stream --> infinite flow of data
     stream.filter(track=['ultralight hiking',
-                         'ultralight app'], languages=['en'])
-
-
-# ERRORCODE: 420 = when an app is being rate limited for making too many requests
+                         'ultralight packing', 'ultralight', 'hiking'], languages=['en'])

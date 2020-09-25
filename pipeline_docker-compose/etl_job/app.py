@@ -82,7 +82,7 @@ def load(tweets):
     ------------
     tweets: List of tweets that were extracted from the MongoDB database and transformed """
 
-    insert_query = 'INSERT INTO tweets VALUES (%s, %s, %s);'
+    insert_query = 'INSERT INTO tweets (name, text, sentiment_score) VALUES (%s, %s, %s);'
     for tweet in tweets:
         engine.execute(
             insert_query, (tweet['username'], tweet['text'], tweet['sentiment_score']))

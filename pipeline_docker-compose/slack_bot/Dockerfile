@@ -7,10 +7,11 @@ WORKDIR /app
 
 COPY ./requirements.txt /app
 COPY ./Dockerfile /app
-COPY ./slack_bot.py /app
 
 # install tweepy (package name is in requirements) on the virtual machine 
 RUN pip install --trusted-host pypi.python.org -r requirements.txt
+
+COPY ./slack_bot.py /app
 
 # CMD specifies what command to run within the container.
 CMD ["python", "slack_bot.py"]

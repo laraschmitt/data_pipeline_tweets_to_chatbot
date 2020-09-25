@@ -7,11 +7,13 @@ WORKDIR /app
 
 COPY ./requirements.txt /app
 COPY ./Dockerfile /app
-COPY ./get_tweets.py /app
-COPY ./credentials.py /app
+
 
 # install tweepy (package name is in requirements) on the virtual machine 
 RUN pip install --trusted-host pypi.python.org -r requirements.txt
+
+COPY ./credentials.py /app
+COPY ./get_tweets.py /app
 
 
 # CMD specifies what command to run within the container.

@@ -3,15 +3,17 @@ FROM python:3.6-slim
 
 # rougly the equivalent of mkdir app upon creation of the container:
 WORKDIR /app
-# COPY adds files from your Docker client’s current directory. (Or if everything in the dir: ADD . /app)
+# COPY adds files from your Docker client’s current directory
+ADD . /app
 
-COPY ./requirements.txt /app
-COPY ./Dockerfile /app
-COPY ./app.py /app
+#COPY ./Dockerfile /app
+#COPY ./requirements.txt /app
 
 
 # install tweepy (package name is in requirements) on the virtual machine 
 RUN pip install --trusted-host pypi.python.org -r requirements.txt
+
+#COPY ./app.py /app
 
 
 # CMD specifies what command to run within the container.
