@@ -16,8 +16,6 @@ def authenticate():
        3. ACCESS_TOKEN
        4. ACCESS_TOKEN_SECRET
 
-    See course material for instructions on getting your own Twitter credentials.
-    """
     auth = OAuthHandler(credentials.CONSUMER_API_KEY, credentials.CONSUMER_API_SECRET)
     auth.set_access_token(credentials.ACCESS_TOKEN, credentials.ACCESS_TOKEN_SECRET)
 
